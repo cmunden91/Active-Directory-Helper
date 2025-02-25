@@ -101,20 +101,75 @@ function menu {
                             menu(2)
                         }
                         else {
-                            $newPassword = randomPassword:randomString
+                            [String]$newPassword = randomPassword
+                            $newPassword = $newPassword.replace(' ', '')
                             Set-AdAccountPassword -PassThru $selected_ad_User -Reset -NewPassword(ConvertTo-SecureString -asPlainText "$newPassword" -Force)
                             Set-AdUser -PassThru $selected_ad_User -ChangePasswordAtLogon $true
-                            Write-Host "The new User Password is: " $newPassword " Please provide this to the user."
+                            Write-Host "The new User Password is:" $newPassword "Please provide this to the user."
                             menu(2)
                         }
                     }
+                    "3" {
+                        if($null -eq $selected_ad_User) {
+                            Write-Error "No User Selected"
+                            menu(2)
+                        }
+                        else {
+                            Disable-ADAccount -Passthru $selected_ad_User -Confirm
+                            menu(2)
+                        }
+                    }
+                    "4" {
+                        if($null -eq $selected_ad_User) {
+                            Write-Error "No User Selected"
+                            menu(2)
+                        }
+                        else {
+                            Enable-ADAccount -Passthru $selected_ad_User -Confirm
+                            menu(2)
+                        }
+                    }
+                    "5" {
+                        if($null -eq $selected_ad_User) {
+                            Write-Error "No User Selected"
+                            menu(2)
+                        }
+                        else {
+                            Remove-ADUser -Identity $selected_ad_User -Confirm
+                            menu(2)
+                        }
+                    }
+                    "6" {
+                        [String]$newPassword = randomPassword
+                        $newPassword = $newPassword.replace(' ', '')
+                        $newUser =@{
+                            Name = Read-Host "Please Enter User Name"
+                            AccountPassword = ConvertTo-SecureString -asPlainText $newPassword -Force
+                            GivenName = Read-Host "Please Enter First Name"
+                            Surname = Read-Host "Please Enter Last Name"
+                            DisplayName = Read-Host "Please Enter Display Name"
+                            EmailAddress = Read-Host "Please Enter Email"
+                            homePhone = Read-Host "Please Enter Phone Number (Format: ###-###-####)"
+                        }
+                        New-ADUser @newUser
+                        Write-Host "New User Password is: " $newPassword ". Please provide it to them."
+                        selectUser(Get-ADUser -Identity $newUser.Name)
+                        $enable = Read-Host "Would you like to enable the account? y/n"
+                        if (($enable -eq "y" -or $enable -eq "Y")) {Enable-ADAccount -Passthru $selected_ad_User}
+                        menu(2)
+                    }
                     "7" {
+                        if($null -eq $selected_ad_User) {
+                            Write-Error "No User Selected"
+                            menu(2)
+                        }
+                        else {
                         Write-Host "The account is currently :"
                         if($selected_ad_User.LockedOut) {Write-Host "IS locked out."} else {Write-Host "NOT locked out."}
                         if($selected_ad_User.Enabled) {Write-Host "Is ENABLED" } else {Write-Host "Is DISABLED."}
                         if($selected_ad_User.isDeleted) {Write-Host "IS Deleted."} else {Write-Host "ISN'T Deleted."}
                         menu(2)
-
+                        }
                     }
                     "q" {
                         menu(0)
@@ -146,22 +201,23 @@ function randomPassword {
         switch($characterType) {
             0 {
                 $randomString = $randomString + (Get-Random -Minimum 0 -Maximum 10)
-                Write-Host "I is: " $i "and String is" $randomString
             }
             1 {
                 $randomString = $randomString + ($lowerCaseCharacterArray[(Get-Random -Minimum 0 -Maximum ($lowerCaseCharacterArray.length))])
-                Write-Host "I is: " $i "and String is" $randomString
             }
             2 {
                 $randomString = $randomString + ($upperCaseCharacterArray[(Get-Random -Minimum 0 -Maximum ($upperCaseCharacterArray.length))])
-                Write-Host "I is: " $i "and String is" $randomString
             }
             3 {
                 $randomString = $randomString + ($specialCharacterArray[(Get-Random -Minimum 0 -Maximum ($specialCharacterArray.length))])
-                Write-Host "I is: " $i "and String is" $randomString
             }
         }
+        Clear-Variable characterType
     }
+    Clear-Variable lowerCaseCharacterArray
+    Clear-Variable upperCaseCharacterArray
+    Clear-Variable specialCharacterArray
+    Clear-Variable characterType
     return $randomString
 }
 function lookUpADUser {
