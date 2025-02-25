@@ -81,6 +81,7 @@ function menu {
                 Write-Host "4) Enable Account"
                 Write-Host "5) Delete Account"
                 Write-Host "6) Create Account"
+                Write-Host "7) Quick Diagnosis"
                 Write-Host "q) Return to Main Menu"
                 $input = Read-Host "Please Make a Selection"
                 switch($input) {
@@ -106,6 +107,14 @@ function menu {
                             Write-Host "The new User Password is: " $newPassword " Please provide this to the user."
                             menu(2)
                         }
+                    }
+                    "7" {
+                        Write-Host "The account is currently :"
+                        if($selected_ad_User.LockedOut) {Write-Host "IS locked out."} else {Write-Host "NOT locked out."}
+                        if($selected_ad_User.Enabled) {Write-Host "Is ENABLED" } else {Write-Host "Is DISABLED."}
+                        if($selected_ad_User.isDeleted) {Write-Host "IS Deleted."} else {Write-Host "ISN'T Deleted."}
+                        menu(2)
+
                     }
                     "q" {
                         menu(0)
