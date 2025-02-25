@@ -178,9 +178,20 @@ function lookUpADUser {
             $result = Get-ADUser -Filter {GivenName -like $firstName -and Surname -like $lastName} -Properties *
             selectUser($result)
         }
+        '3' {
+            $input = Read-Host "Please Enter Email Address"
+            $result = Get-ADUser -Filter {EmailAddress -like $input} -Properties *
+            selectUser($result)
+        }
         '4' {
-            $input = Read-Host "Please Enter Phone Number"
-            Get-ADUser -Filter {TelephoneNumber -like $input} -Properties * | Format-Table SamAccountName,EmailAddress,DisplayName,GivenName,Surname,TelephoneNumber,memberOf
+            $input = Read-Host "Please Enter Display Name"
+            $result = Get-ADUser -Filter {DisplayName -like $input} -Properties *
+            selectUser($result)
+        }
+        '5' {
+            $input = Read-Host "Please Enter Phone Number (Include Dashes: IE ###-###-####)"
+            $result = Get-ADUser -Filter {TelephoneNumber -like $input} -Properties *
+            selectUser($result)
         }
 
     }
