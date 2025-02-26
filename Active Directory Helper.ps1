@@ -164,10 +164,13 @@ function menu {
                             menu(2)
                         }
                         else {
-                        Write-Host "The account is currently :"
+                        Write-Host "The account is currently:"
                         if($selected_ad_User.LockedOut) {Write-Host "IS locked out."} else {Write-Host "NOT locked out."}
-                        if($selected_ad_User.Enabled) {Write-Host "Is ENABLED" } else {Write-Host "Is DISABLED."}
-                        if($selected_ad_User.isDeleted) {Write-Host "IS Deleted."} else {Write-Host "ISN'T Deleted."}
+                        if($selected_ad_User.Enabled) {Write-Host "Is ENABLED." } else {Write-Host "Is DISABLED."}
+                        if($selected_ad_User.isDeleted) {Write-Host "IS Deleted."} else {Write-Host "Is NOT Deleted."}
+                        $timeZone = Get-TimeZone
+                        Write-Host "The Accounts last login was: "$selected_ad_User.LastLogonDate $timeZone.DisplayName"."
+                        Write-Host "The Accounts last login attempt was:"$selected_ad_User.LastBadPasswordAttempt $timeZone.DisplayName"."
                         menu(2)
                         }
                     }
