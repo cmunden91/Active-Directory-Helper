@@ -92,6 +92,7 @@ function menu {
                         }
                         else {
                             Unlock-AdAccount -Identity $selected_ad_User -Confirm
+                            selectUser(Get-ADUser -Identity $selected_ad_User)
                             menu(2)
                         }
                     }
@@ -116,6 +117,7 @@ function menu {
                         }
                         else {
                             Disable-ADAccount -Identity $selected_ad_User -Confirm
+                            selectUser(Get-ADUser -Identity $selected_ad_User)
                             menu(2)
                         }
                     }
@@ -126,6 +128,7 @@ function menu {
                         }
                         else {
                             Enable-ADAccount -Identity $selected_ad_User -Confirm
+                            selectUser(Get-ADUser -Identity $selected_ad_User)
                             menu(2)
                         }
                     }
@@ -136,6 +139,7 @@ function menu {
                         }
                         else {
                             Remove-ADUser -Identity $selected_ad_User -Confirm
+                            clearUser
                             menu(2)
                         }
                     }
