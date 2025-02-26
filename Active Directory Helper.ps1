@@ -91,7 +91,7 @@ function menu {
                             menu(2)
                         }
                         else {
-                            Unlock-AdAccount -PassThru $selected_ad_User -Confirm
+                            Unlock-AdAccount -Identity $selected_ad_User -Confirm
                             menu(2)
                         }
                     }
@@ -103,8 +103,8 @@ function menu {
                         else {
                             [String]$newPassword = randomPassword
                             $newPassword = $newPassword.replace(' ', '')
-                            Set-AdAccountPassword -PassThru $selected_ad_User -Reset -NewPassword(ConvertTo-SecureString -asPlainText "$newPassword" -Force)
-                            Set-AdUser -PassThru $selected_ad_User -ChangePasswordAtLogon $true
+                            Set-AdAccountPassword -Identity $selected_ad_User -Reset -NewPassword(ConvertTo-SecureString -asPlainText "$newPassword" -Force)
+                            Set-AdUser -Identity $selected_ad_User -ChangePasswordAtLogon $true
                             Write-Host "The new User Password is:" $newPassword "Please provide this to the user."
                             menu(2)
                         }
@@ -115,7 +115,7 @@ function menu {
                             menu(2)
                         }
                         else {
-                            Disable-ADAccount -Passthru $selected_ad_User -Confirm
+                            Disable-ADAccount -Identity $selected_ad_User -Confirm
                             menu(2)
                         }
                     }
@@ -125,7 +125,7 @@ function menu {
                             menu(2)
                         }
                         else {
-                            Enable-ADAccount -Passthru $selected_ad_User -Confirm
+                            Enable-ADAccount -Identity $selected_ad_User -Confirm
                             menu(2)
                         }
                     }
@@ -155,7 +155,7 @@ function menu {
                         Write-Host "New User Password is: " $newPassword ". Please provide it to them."
                         selectUser(Get-ADUser -Identity $newUser.Name)
                         $enable = Read-Host "Would you like to enable the account? y/n"
-                        if (($enable -eq "y" -or $enable -eq "Y")) {Enable-ADAccount -Passthru $selected_ad_User}
+                        if (($enable -eq "y" -or $enable -eq "Y")) {Enable-ADAccount -Identity $selected_ad_User}
                         menu(2)
                     }
                     "7" {
