@@ -5,11 +5,11 @@ function menu {
         )
         switch ($menu_num) {
             default {
-                Write-Host "=================================="
+                spacer
                 Write-Host "Active Directory Helper Main Menu"
-                Write-Host "=================================="
+                spacer
                 selectedUser
-                Write-Host "=================================="
+                spacer
                 Write-Host "1) Look up User"
                 Write-Host "2) User Actions"
                 Write-Host "c) Clear Selected User"
@@ -46,11 +46,11 @@ function menu {
                 }
             }
             '1' {
-                Write-Host "=================================="
+                spacer
                 Write-Host "Active Directory Helper Look up Menu"
-                Write-Host "=================================="
+                spacer
                 selectedUser
-                Write-Host "=================================="
+                spacer
                 Write-Host "1) Look up by User Name"
                 Write-Host "2) Look up by Name"
                 Write-Host "3) Look up by Email"
@@ -70,11 +70,11 @@ function menu {
                 }
             }
             '2' {
-                Write-Host "=================================="
+                spacer
                 Write-Host "Active Directory Helper Action Menu"
-                Write-Host "=================================="
+                spacer
                 selectedUser
-                Write-Host "=================================="
+                spacer
                 Write-Host "1) Unlock Account"
                 Write-Host "2) Reset Password"
                 Write-Host "3) Disable Account"
@@ -269,12 +269,12 @@ function selectUser {
         [Object]$users
     )
     if($users -is [array]) {
-        Write-Host "=================================="
+        spacer
         for ($i = 0; $i -lt $users.Length; $i++) {
             "#$i) User Name:" + $users[$i].SamAccountName + " Email Address:" + $users[$i].EmailAddress + " Display Name:" + $users[$i].DisplayName + " Full Name:" + $users[$i].GivenName + " " + $users[$i].Surname + " Phone Number:" + $users[$i].TelephoneNumber
         }
         Write-Host "#c) Cancel Selection"
-        Write-Host "=================================="
+        spacer
         $input = Read-Host "Please Select User:"
         if ($input -eq "c") {
             break
@@ -303,6 +303,9 @@ function selectedUser {
     else {
         "User Selected = User Name: " + $selected_ad_User.SamAccountName + " Full Name: " + $selected_ad_User.GivenName + " " + $selected_ad_User.Surname + " Phone Number: " + $selected_ad_User.TelephoneNumber
     }
+}
+function spacer {
+    Write-Host "=================================="
 }
 function clearUser {
     $global:selected_ad_User = $null
