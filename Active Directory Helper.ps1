@@ -155,6 +155,7 @@ function menu {
                             DisplayName = Read-Host "Please Enter Display Name"
                             EmailAddress = Read-Host "Please Enter Email"
                             homePhone = Read-Host "Please Enter Phone Number (Format: ###-###-####)"
+                            EmployeeID = Read-Host "Please Enter Employee ID"
                         }
                         New-ADUser @newUser
                         Write-Host "New User Password is: " $newPassword ". Please provide it to them."
