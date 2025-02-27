@@ -51,12 +51,13 @@ function menu {
                 spacer
                 selectedUser
                 spacer
-                Write-Host "1) Look up by User Name"
-                Write-Host "2) Look up by Name"
-                Write-Host "3) Look up by Email"
-                Write-Host "4) Look up by Display Name"
-                Write-Host "5) Look up by Phone Number"
-                Write-Host "6) Look up by Employee ID"
+                Write-Host "1) Look up by User Name (exact)"
+                Write-Host "2) Look up by User Name"
+                Write-Host "3) Look up by Name"
+                Write-Host "4) Look up by Email"
+                Write-Host "5) Look up by Display Name"
+                Write-Host "6) Look up by Phone Number"
+                Write-Host "7) Look up by Employee ID"
                 Write-Host "q) Return to Main Menu"
                 $input = Read-Host "Please Make a Selection"
                 switch($input) { 
@@ -243,6 +244,11 @@ function lookUpADUser {
             selectUser($result)
         }
         '2' {
+            $input = Read-Host "Please Enter User Name"
+            $result = Get-ADUser -Filter {SamAccountName -like $input} -Properties *
+            selectUser($result)
+        }
+        '3' {
             $firstName = "*"
             $lastName = "*"
             $input = Read-Host "Please Enter First Name"
@@ -252,22 +258,22 @@ function lookUpADUser {
             $result = Get-ADUser -Filter {GivenName -like $firstName -and Surname -like $lastName} -Properties *
             selectUser($result)
         }
-        '3' {
+        '4' {
             $input = Read-Host "Please Enter Email Address"
             $result = Get-ADUser -Filter {EmailAddress -like $input} -Properties *
             selectUser($result)
         }
-        '4' {
+        '5' {
             $input = Read-Host "Please Enter Display Name"
             $result = Get-ADUser -Filter {DisplayName -like $input} -Properties *
             selectUser($result)
         }
-        '5' {
+        '6' {
             $input = Read-Host "Please Enter Phone Number (Include Dashes: IE ###-###-####)"
             $result = Get-ADUser -Filter {TelephoneNumber -like $input} -Properties *
             selectUser($result)
         }
-        '6' {
+        '7' {
             $input = Read-Host "Please Enter Employee ID"
             $result = Get-ADUser -Filter {EmployeeID -like $input} -Properties *
             selectUser($result)
