@@ -1,6 +1,7 @@
 function adhMain {
     $script:selected_ad_User = $null
     function mainMenu {
+        Clear-Host
         spacer
         Write-Host "Active Directory Helper Main Menu"
         spacer
@@ -41,6 +42,7 @@ function adhMain {
         }
     }
     function actionMenu {
+        Clear-Host
         spacer
         Write-Host "Active Directory Helper Action Menu"
         spacer
@@ -78,6 +80,7 @@ function adhMain {
                     Set-AdAccountPassword -Identity $selected_ad_User -Reset -NewPassword(ConvertTo-SecureString -asPlainText "$newPassword" -Force)
                     Set-AdUser -Identity $selected_ad_User -ChangePasswordAtLogon $true
                     Write-Host "The new User Password is:" $newPassword "Please provide this to the user."
+                    Read-Host -Prompt "Press any key to continue or CTRL+C to quit" | Out-Null
                     actionMenu
                 }
             }
@@ -129,6 +132,7 @@ function adhMain {
                 }
                 New-ADUser @newUser
                 Write-Host "New User Password is: " $newPassword ". Please provide it to them."
+                Read-Host -Prompt "Press any key to continue or CTRL+C to quit" | Out-Null
                 selectUser(Get-ADUser -Identity $newUser.Name)
                 $enable = Read-Host "Would you like to enable the account? y/n"
                 if (($enable -eq "y" -or $enable -eq "Y")) { Enable-ADAccount -Identity $selected_ad_User }
@@ -159,6 +163,7 @@ function adhMain {
         }
     }
     function lookUpMenu {
+        Clear-Host
         spacer
         Write-Host "Active Directory Helper Look up Menu"
         spacer
@@ -295,6 +300,7 @@ function adhMain {
             [Object]$users
         )
         if ($users -is [array]) {
+            Clear-Host
             spacer
             for ($i = 0; $i -lt $users.Length; $i++) {
                 "#$i) User Name:" + $users[$i].SamAccountName + " Email Address:" + $users[$i].EmailAddress + " Display Name:" + $users[$i].DisplayName + " Full Name:" + $users[$i].GivenName + " " + $users[$i].Surname + " Phone Number:" + $users[$i].TelephoneNumber
@@ -339,3 +345,4 @@ function adhMain {
     mainMenu
 }
 adhMain
+Clear-Host
