@@ -34,7 +34,7 @@ function adhMain {
                 mainMenu
             }
             'q' {
-                break
+                return
             }
             default {
                 mainMenu
