@@ -194,7 +194,7 @@ function adhMain {
         Set-AdAccountPassword -Identity $selected_ad_User -Reset -NewPassword(ConvertTo-SecureString -asPlainText "$newPassword" -Force)
         Set-AdUser -Identity $selected_ad_User -ChangePasswordAtLogon $true
         Write-Host "The new User Password is:" $newPassword "Please provide this to the user."
-        Read-Host -Prompt "Press any key to continue or CTRL+C to quit" | Out-Null
+        pause
     }
     function disableAccount {
         Disable-ADAccount -Identity $selected_ad_User -Confirm
@@ -223,7 +223,7 @@ function adhMain {
         }
         New-ADUser @newUser
         Write-Host "New User Password is: " $newPassword ". Please provide it to them."
-        Read-Host -Prompt "Press any key to continue or CTRL+C to quit" | Out-Null
+        pause
         selectUser(Get-ADUser -Identity $newUser.Name)
         $enable = Read-Host "Would you like to enable the account? y/n"
         if (($enable -eq "y" -or $enable -eq "Y")) { Enable-ADAccount -Identity $selected_ad_User }
@@ -236,7 +236,7 @@ function adhMain {
                     $timeZone = Get-TimeZone
                     Write-Host "The Accounts last login was: "$selected_ad_User.LastLogonDate $timeZone.DisplayName"."
                     Write-Host "The Accounts last login attempt was:"$selected_ad_User.LastBadPasswordAttempt $timeZone.DisplayName"."
-                    Read-Host -Prompt "Press any key to continue or CTRL+C to quit" | Out-Null
+                    pause
     }
     function getUserByUserNameExact {
         $input = Read-Host "Please Enter User Name"
@@ -384,6 +384,9 @@ function adhMain {
     }
     function clearUser {
         $script:selected_ad_User = $null
+    }
+    function pause {
+        Read-Host -Prompt "Press any key to continue" | Out-Null
     }
     mainMenu
 }
