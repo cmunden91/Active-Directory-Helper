@@ -1,5 +1,5 @@
 function adhMain {
-    $global:selected_ad_User = $null
+    $script:selected_ad_User = $null
     function mainMenu {
         spacer
         Write-Host "Active Directory Helper Main Menu"
@@ -33,7 +33,6 @@ function adhMain {
                 mainMenu
             }
             'q' {
-                clearUser
                 break
             }
             default {
@@ -312,12 +311,12 @@ function adhMain {
             }
             else {
                 Write-Host "User" $users[[int]$input].SamAccountName "Selected."
-                [Object]$global:selected_ad_User = [Object]$users[[int]$input]
+                [Object]$script:selected_ad_User = [Object]$users[[int]$input]
             }
         }
         elseif ($null -ne $users) {
             Write-Host "User" $users.SamAccountName "Selected."
-            [Object]$global:selected_ad_User = [Object]$users
+            [Object]$script:selected_ad_User = [Object]$users
         }
         else {
             Write-Host "No User Found."
@@ -335,10 +334,8 @@ function adhMain {
         Write-Host "=================================="
     }
     function clearUser {
-        $global:selected_ad_User = $null
+        $script:selected_ad_User = $null
     }
     mainMenu
 }
 adhMain
-
-#Get-AdUser -Filter 'Name -like "user*"' -Properties * | Format-Table SamAccountName,EmailAddress,DisplayName,GivenName,Surname,TelephoneNumber,memberOf
