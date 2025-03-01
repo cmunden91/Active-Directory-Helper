@@ -244,8 +244,10 @@ function lookUpADUser {
             selectUser($result)
         }
         '2' {
+            $username = "*"
             $input = Read-Host "Please Enter User Name"
-            $result = Get-ADUser -Filter {SamAccountName -like $input} -Properties *
+            if ($input -ne "") {$username = $input}
+            $result = Get-ADUser -Filter {SamAccountName -like $username} -Properties *
             selectUser($result)
         }
         '3' {
@@ -259,23 +261,31 @@ function lookUpADUser {
             selectUser($result)
         }
         '4' {
+            $email = "*"
             $input = Read-Host "Please Enter Email Address"
-            $result = Get-ADUser -Filter {EmailAddress -like $input} -Properties *
+            if ($input -ne "") {$email = $input}
+            $result = Get-ADUser -Filter {EmailAddress -like $email} -Properties *
             selectUser($result)
         }
         '5' {
+            $displayName = "*"
             $input = Read-Host "Please Enter Display Name"
-            $result = Get-ADUser -Filter {DisplayName -like $input} -Properties *
+            if ($input -ne "") {$displayName = $input}
+            $result = Get-ADUser -Filter {DisplayName -like $displayName} -Properties *
             selectUser($result)
         }
         '6' {
+            $phoneNumber = "*"
             $input = Read-Host "Please Enter Phone Number (Include Dashes: IE ###-###-####)"
-            $result = Get-ADUser -Filter {TelephoneNumber -like $input} -Properties *
+            if ($input -ne "") {$phoneNumber = $input}
+            $result = Get-ADUser -Filter {TelephoneNumber -like $phoneNumber} -Properties *
             selectUser($result)
         }
         '7' {
+            $employeeID = "*"
             $input = Read-Host "Please Enter Employee ID"
-            $result = Get-ADUser -Filter {EmployeeID -like $input} -Properties *
+            if ($input -ne "") {$employeeID = $input}
+            $result = Get-ADUser -Filter {EmployeeID -like $employeeID} -Properties *
             selectUser($result)
         }
 
